@@ -1,11 +1,14 @@
-import express from 'express';
+import express, { response } from 'express';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import path from 'path';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import { userProfile } from './schema.js';
+import { createPost } from './controllers.js';
+import { routes } from './routes.js'
 
-dotenv.config()
+dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -31,17 +34,8 @@ app.post('/signin', (req,res)=> {
         }
 });
 
-app.post('/register', (req, res) => {
-    const { email, name, password} = req.body
-    database.users.push({
-        id:'3',
-        name:'Ally',
-        email:'Ally@gmail.com',
-        password:'cookies',
-        joined: new Date()
-    })
-    res.json(database.users.at(-1))
-});
+
+app.use(routes)
 
 app.get('/profile/:id', (req, res) => {
     const {id} = req.params
@@ -55,7 +49,8 @@ app.get('/profile/:id', (req, res) => {
     if (!found) {
         res.status(404).json('nope')
     }
-})
+});
+
 
 
 app.listen (PORT, ()=> console.log (`server running on port ${PORT}`));
