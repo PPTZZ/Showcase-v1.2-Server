@@ -21,7 +21,9 @@ const getPost = async (req, res) =>{
 // get posts
 
 const getPosts = async (req, res) => {
-    const posts = await userPost.find({}).sort({createdAt: -1})
+    const user_id = req.user._id
+
+    const posts = await userPost.find({user_id}).sort({createdAt: -1})
 
     res.status(200).json(posts)
 }
@@ -30,10 +32,12 @@ const getPosts = async (req, res) => {
 
 const createPost = async(req,res)=>{
     
-    const {title, description, link } = req.body
+    const {title, description, link} = req.body
+    const image = req.file
 
     try{
-        const post = await userPost.create({title, description, link});
+        const user_id = req.user._id
+        const post = await userPost.create({image , title, description, link, user_id});
         res.status(200).json(post)
     }catch (err){
         res.status(400).json({error: err.message})

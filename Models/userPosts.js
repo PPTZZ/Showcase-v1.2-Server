@@ -12,9 +12,13 @@ const userPostsSchema = new Schema({
     link:{
         type: String
     },
-    img:{
+    image:{
         type: String
-    }
+    },
+    user_id:{
+        type: String,
+        required: true
+    },
 
 }, {timestamps:true})
 
