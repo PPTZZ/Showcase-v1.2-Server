@@ -1,23 +1,6 @@
 const userPost = require('../Models/userPosts');
 const mongoose = require('mongoose');
 
-// get a post
-
-const getPost = async (req, res) =>{
-    const {id} = req.params
-    const post = await userPost.findById(id)
-
-    if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'no post found'})
-    }
-    
-    if (!post){
-        return res.status(404).json({error: 'no post found'})
-    }
-
-    res.status(200).json(post)
-}
-
 // get posts
 
 const getPosts = async (req, res) => {
@@ -32,9 +15,8 @@ const getPosts = async (req, res) => {
 
 const createPost = async(req,res)=>{
     
-    const {title, description, link} = req.body
-    const image = req.file
-
+    const {title, description, link, image} = req.body
+    
     try{
         const user_id = req.user._id
         const post = await userPost.create({image , title, description, link, user_id});
@@ -79,7 +61,6 @@ const updatePost = async (req,res)=>{
 module.exports = {
     createPost,
     getPosts,
-    getPost,
     deletePost,
     updatePost,
 }
