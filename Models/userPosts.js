@@ -1,4 +1,6 @@
-import { Schema, model } from "mongoose";
+const mongoose = require('mongoose');
+
+const Schema= mongoose.Schema
 
 const userPostsSchema = new Schema({
     title:{
@@ -11,10 +13,9 @@ const userPostsSchema = new Schema({
         type: String
     },
     img:{
-        data: Buffer,
-        contentType: String
+        type: String
     }
 
 }, {timestamps:true})
 
-export const userPost = model('userPost', userPostsSchema)
+module.exports = mongoose.model('userPost', userPostsSchema)

@@ -1,18 +1,20 @@
-import express, { urlencoded } from 'express';
-import cors from 'cors';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import { userRouter } from './Routes/users.js';
-import { postsRouter } from './Routes/posts.js';
+require('dotenv').config()
 
-dotenv.config();
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const userRouter = require('./Routes/users.js');
+const postsRouter = require('./Routes/posts.js');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(urlencoded({extended:false}))
+app.use(express.urlencoded({extended:false}));
 
 const PORT = process.env.PORT || 3000;
 const DATABASE_URI = process.env.DATABASE_URI;
+
+
 
 mongoose.connect(DATABASE_URI)
     .then(()=>console.log('db connected'))
@@ -20,5 +22,6 @@ mongoose.connect(DATABASE_URI)
 
 app.use('/api/posts',postsRouter);
 app.use('/api',userRouter);
+
 
 app.listen (PORT, ()=> console.log (`server running on port ${PORT}`));
